@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010 Express for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualInvestigator", "VirtualInvestigator\VirtualInvestigator\VirtualInvestigator.csproj", "{6547AF94-8D08-4E87-8E90-6E034446F5BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualInvestigatorContent", "VirtualInvestigator\VirtualInvestigatorContent\VirtualInvestigatorContent.contentproj", "{3B5E863E-28CD-450D-93F7-22BEE3BC11C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Windows Phone = Debug|Windows Phone
+		Release|Windows Phone = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6547AF94-8D08-4E87-8E90-6E034446F5BD}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{6547AF94-8D08-4E87-8E90-6E034446F5BD}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{6547AF94-8D08-4E87-8E90-6E034446F5BD}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{6547AF94-8D08-4E87-8E90-6E034446F5BD}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{6547AF94-8D08-4E87-8E90-6E034446F5BD}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{6547AF94-8D08-4E87-8E90-6E034446F5BD}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{3B5E863E-28CD-450D-93F7-22BEE3BC11C1}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{3B5E863E-28CD-450D-93F7-22BEE3BC11C1}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
