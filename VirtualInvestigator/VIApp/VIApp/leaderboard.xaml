@@ -11,7 +11,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True" BorderThickness="0">
+    shell:SystemTray.IsVisible="True" BorderThickness="0" BorderBrush="#FFE1690A">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="#FF7740C5">
@@ -28,6 +28,12 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <TextBlock Height="59" HorizontalAlignment="Left" Margin="36,15,0,0" Name="textBlock1" Text="Top 10 Scores" VerticalAlignment="Top" Width="371" FontSize="40" />
+            <Grid x:Name="TablePanel" Height="300" HorizontalAlignment="Left" Margin="36,80,0,0" VerticalAlignment="Top" Width="371" ShowGridLines="True" Grid.ColumnSpan="1" Grid.Column="0" Grid.RowSpan="1" Background="Black">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="137*" />
+                    <ColumnDefinition Width="234" />
+                </Grid.ColumnDefinitions>
+            </Grid>
         </Grid>
     </Grid>
  
