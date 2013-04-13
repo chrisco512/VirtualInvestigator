@@ -28,7 +28,7 @@ namespace VIApp
 
         private void leaderboardButton_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/leaderboard.xaml", UriKind.Relative));
         }
 
         // Simple button Click event handler to take us to the second page

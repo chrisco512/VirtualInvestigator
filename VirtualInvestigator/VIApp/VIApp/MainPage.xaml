@@ -32,7 +32,7 @@ Investigator" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
             <!--Create a single button to navigate to the second page which is rendered with the XNA Framework-->
             <Button Height="72" Content="Start Investigation" Click="gameButton_Click" Margin="100,0,100,178" Name="gameButton" AllowDrop="False" Background="Black" VerticalAlignment="Bottom"></Button>
             <Image Height="223" HorizontalAlignment="Center" Margin="0,6,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="223" Source="/VIApp;component/vilogo.png" />
-            <Button Content="Leaderboard" Height="72" HorizontalAlignment="Center" Margin="100,317,100,0" Name="leaderboardButton" VerticalAlignment="Center" Background="Black" Click="leaderboardButton_Click" VerticalContentAlignment="Center"></Button>
+            <Button Content="Leaderboard" Height="72" HorizontalAlignment="Center" Margin="100,317,100,100" Name="leaderboardButton" VerticalAlignment="Bottom" Background="Black" Click="leaderboardButton_Click" VerticalContentAlignment="Center"></Button>
         </Grid>
     </Grid>
  

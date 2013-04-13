@@ -63,20 +63,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="lowpolybullet.fbx">
-      <Name>lowpolybullet</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Bullet_UV2.tga">
-      <Name>Bullet_UV2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="newRoom.fbx">
       <Name>newRoom</Name>
       <Importer>FbxImporter</Importer>
@@ -138,13 +124,6 @@
   <ItemGroup>
     <Compile Include="Vase01.fbx">
       <Name>Vase01</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Army_boots.fbx">
-      <Name>Army_boots</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>

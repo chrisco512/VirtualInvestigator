@@ -25,8 +25,8 @@ namespace VirtualInvestigator
     public class VirtualInvestigatorGame : Microsoft.Xna.Framework.Game
     {
 
-        Vector3[] positions = new Vector3[] { new Vector3(-30, 0, -15), new Vector3(-30, 0, 45) };
-        string[] models = new string[]{ "Army_boots", "blackhat" };
+        Vector3[] positions = new Vector3[] {new Vector3(-30, 0, 45) };
+        string[] models = new string[]{"blackhat" };
 
         //when creating a new item:
         //
