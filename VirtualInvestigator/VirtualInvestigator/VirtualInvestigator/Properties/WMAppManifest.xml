@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{162699b6-334a-448d-a5a0-7ac7cec50d94}" Title="Draw3DAxes" RuntimeType="XNA" Version="1.0.0.0" Genre="Apps.Normal" Author="" Description="" Publisher="">
+  <App xmlns="" ProductID="{162699b6-334a-448d-a5a0-7ac7cec50d94}" Title="Virtual Investigator" RuntimeType="XNA" Version="1.0.0.0" Genre="Apps.Normal" Author="" Description="" Publisher="">
     <IconPath IsRelative="true" IsResource="false"></IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

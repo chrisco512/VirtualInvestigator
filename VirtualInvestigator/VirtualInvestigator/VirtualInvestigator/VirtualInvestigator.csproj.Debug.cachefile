@@ -32,6 +32,10 @@ Content\AxeColor3_0.xnb
 Content\AxeColor2_0.xnb
 Content\AxeColor_0.xnb
 Content\checker_0.xnb
+Content\magGlass.xnb
+Content\Krasnoe_derevo.xnb
+Content\book.xnb
+Content\Book_texture_RYOKAN_0.xnb
 Objects\Camera.cs
 Objects\Bullet.cs
 Objects\DrawableComponent3D.cs

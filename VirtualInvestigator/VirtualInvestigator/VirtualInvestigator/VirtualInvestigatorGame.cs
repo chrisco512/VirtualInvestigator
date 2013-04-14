@@ -26,11 +26,15 @@ namespace VirtualInvestigator
     {
 
         Vector3[] positions = new Vector3[] { new Vector3(-30, 0, -15), new Vector3(-30, 0, 45) };
-        string[] models = new string[]{ "Army_boots", "blackhat" };
+        string[] models = new string[]{ "book", "blackhat" };
 
         //when creating a new item:
         //
+        #region 2D
+        Texture2D crossHair;
+        #endregion
 
+        String intersecting = "false";
 
         Motion motion;
         Matrix attitude;
@@ -159,6 +163,7 @@ namespace VirtualInvestigator
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
             font = Content.Load<SpriteFont>("font");
+            crossHair = Content.Load<Texture2D>("magGlass");
             
 
 
@@ -398,6 +403,15 @@ namespace VirtualInvestigator
 
             camera.Update(gameTime);
 
+            //cast a ray in front of the camera
+            Matrix lookAt = Matrix.Invert(camera.View);
+            Vector3 direction = Vector3.Transform(new Vector3(0, 0, -20), lookAt);
+            direction.Normalize();
+            Ray ray = new Ray(camera.position, direction);
+
+
+
+
             //bulletCntDwn -= 1;
             //
             //if (bulletCntDwn == 0)
@@ -418,15 +432,23 @@ namespace VirtualInvestigator
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
            //     this.Exit();
 
+            intersecting = "false";
 
 
-
-            foreach(Item rocket in items) 
+            foreach(Item item in items) 
             {
-                rocket.Update(gameTime);
+                item.Update(gameTime);
+                Nullable<float> boxDistance = item.box.Intersects(ray);
+                if (boxDistance != null)
+                {
+                    intersecting = "true";
+                }
             }
 
             strCamPos = camera.position.ToString();
+
+
+            
             
             // TODO: Add your update logic here
            /* TouchCollection touches = TouchPanel.GetState();
@@ -537,17 +559,145 @@ namespace VirtualInvestigator
             foreach (Item rocket in items)
             {
                 rocket.Draw(gameTime);
+                BoundingBoxBuffers buffers = CreateBoundingBoxBuffers(rocket.box, GraphicsDevice);
+                DrawBoundingBox(buffers, basicEffect, GraphicsDevice, camera.View, camera.Projection);
+
+
+                //BoundingBox b = new BoundingBox(new Vector3(drone.Position.X - drone.limit, drone.Position.Y - drone.limit, drone.Position.Z - drone.limit),
+                //                   new Vector3(drone.Position.X + drone.limit, drone.Position.Y + drone.limit, drone.Position.Z + drone.limit));
+                //BoundingBoxBuffers buffers = CreateBoundingBoxBuffers(b, SharedGraphicsDeviceManager.Current.GraphicsDevice);
+                //DrawBoundingBox(buffers, basicEffect, SharedGraphicsDeviceManager.Current.GraphicsDevice, camera.View, camera.Projection);
+            
             }
 
-            string message = string.Format("Current Data \n Yaw: {0} \n Pitch: {1} \n Roll: {2} \n CamPos: {3}", yaw, pitch, roll, strCamPos);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            spriteBatch.Draw(crossHair, new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), null, Color.White, 0, new Vector2(crossHair.Width / 2, crossHair.Height / 2), 0.125f, SpriteEffects.None, 0);
+            spriteBatch.End();
 
-            //spriteBatch.Begin();
-            //spriteBatch.DrawString(font, message, new Vector2(50, 50), Color.White);
-            //spriteBatch.End();
+            //string message = string.Format("Current Data \n Yaw: {0} \n Pitch: {1} \n Roll: {2} \n CamPos: {3}", yaw, pitch, roll, strCamPos);
+
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, intersecting, new Vector2(50, 50), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
+        private void DrawBoundingBox(BoundingBoxBuffers buffers, BasicEffect effect, GraphicsDevice graphicsDevice, Matrix view, Matrix projection)
+        {
+            graphicsDevice.SetVertexBuffer(buffers.Vertices);
+            graphicsDevice.Indices = buffers.Indices;
+
+            effect.World = Matrix.Identity;
+            effect.View = view;
+            effect.Projection = projection;
+
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0,
+                    buffers.VertexCount, 0, buffers.PrimitiveCount);
+            }
+        }
+
+        private BoundingBoxBuffers CreateBoundingBoxBuffers(BoundingBox boundingBox, GraphicsDevice graphicsDevice)
+        {
+            BoundingBoxBuffers boundingBoxBuffers = new BoundingBoxBuffers();
+
+            boundingBoxBuffers.PrimitiveCount = 24;
+            boundingBoxBuffers.VertexCount = 48;
+
+            VertexBuffer vertexBuffer = new VertexBuffer(graphicsDevice,
+                typeof(VertexPositionColor), boundingBoxBuffers.VertexCount,
+                BufferUsage.WriteOnly);
+            List<VertexPositionColor> vertices = new List<VertexPositionColor>();
+
+            const float ratio = 5.0f;
+
+            Vector3 xOffset = new Vector3((boundingBox.Max.X - boundingBox.Min.X) / ratio, 0, 0);
+            Vector3 yOffset = new Vector3(0, (boundingBox.Max.Y - boundingBox.Min.Y) / ratio, 0);
+            Vector3 zOffset = new Vector3(0, 0, (boundingBox.Max.Z - boundingBox.Min.Z) / ratio);
+            Vector3[] corners = boundingBox.GetCorners();
+
+            // Corner 1.
+            AddVertex(vertices, corners[0]);
+            AddVertex(vertices, corners[0] + xOffset);
+            AddVertex(vertices, corners[0]);
+            AddVertex(vertices, corners[0] - yOffset);
+            AddVertex(vertices, corners[0]);
+            AddVertex(vertices, corners[0] - zOffset);
+
+            // Corner 2.
+            AddVertex(vertices, corners[1]);
+            AddVertex(vertices, corners[1] - xOffset);
+            AddVertex(vertices, corners[1]);
+            AddVertex(vertices, corners[1] - yOffset);
+            AddVertex(vertices, corners[1]);
+            AddVertex(vertices, corners[1] - zOffset);
+
+            // Corner 3.
+            AddVertex(vertices, corners[2]);
+            AddVertex(vertices, corners[2] - xOffset);
+            AddVertex(vertices, corners[2]);
+            AddVertex(vertices, corners[2] + yOffset);
+            AddVertex(vertices, corners[2]);
+            AddVertex(vertices, corners[2] - zOffset);
+
+            // Corner 4.
+            AddVertex(vertices, corners[3]);
+            AddVertex(vertices, corners[3] + xOffset);
+            AddVertex(vertices, corners[3]);
+            AddVertex(vertices, corners[3] + yOffset);
+            AddVertex(vertices, corners[3]);
+            AddVertex(vertices, corners[3] - zOffset);
+
+            // Corner 5.
+            AddVertex(vertices, corners[4]);
+            AddVertex(vertices, corners[4] + xOffset);
+            AddVertex(vertices, corners[4]);
+            AddVertex(vertices, corners[4] - yOffset);
+            AddVertex(vertices, corners[4]);
+            AddVertex(vertices, corners[4] + zOffset);
+
+            // Corner 6.
+            AddVertex(vertices, corners[5]);
+            AddVertex(vertices, corners[5] - xOffset);
+            AddVertex(vertices, corners[5]);
+            AddVertex(vertices, corners[5] - yOffset);
+            AddVertex(vertices, corners[5]);
+            AddVertex(vertices, corners[5] + zOffset);
+
+            // Corner 7.
+            AddVertex(vertices, corners[6]);
+            AddVertex(vertices, corners[6] - xOffset);
+            AddVertex(vertices, corners[6]);
+            AddVertex(vertices, corners[6] + yOffset);
+            AddVertex(vertices, corners[6]);
+            AddVertex(vertices, corners[6] + zOffset);
+
+            // Corner 8.
+            AddVertex(vertices, corners[7]);
+            AddVertex(vertices, corners[7] + xOffset);
+            AddVertex(vertices, corners[7]);
+            AddVertex(vertices, corners[7] + yOffset);
+            AddVertex(vertices, corners[7]);
+            AddVertex(vertices, corners[7] + zOffset);
+
+            vertexBuffer.SetData(vertices.ToArray());
+            boundingBoxBuffers.Vertices = vertexBuffer;
+
+            IndexBuffer indexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, boundingBoxBuffers.VertexCount,
+                BufferUsage.WriteOnly);
+            indexBuffer.SetData(Enumerable.Range(0, boundingBoxBuffers.VertexCount).Select(i => (short)i).ToArray());
+            boundingBoxBuffers.Indices = indexBuffer;
+
+            return boundingBoxBuffers;
+        }
+
+        private static void AddVertex(List<VertexPositionColor> vertices, Vector3 position)
+        {
+            vertices.Add(new VertexPositionColor(position, Color.White));
+        }
 
     }
 }
