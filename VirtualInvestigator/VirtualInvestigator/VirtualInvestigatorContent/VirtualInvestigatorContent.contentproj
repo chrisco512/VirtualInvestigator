@@ -108,13 +108,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="basketball.fbx">
-      <Name>basketball</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="FreeAXE.fbx">
       <Name>FreeAXE</Name>
       <Importer>FbxImporter</Importer>
@@ -184,13 +177,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="broccoli.fbx">
-      <Name>broccoli</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="oldKey.fbx">
       <Name>oldKey</Name>
       <Importer>FbxImporter</Importer>
@@ -221,27 +207,6 @@
   <ItemGroup>
     <Compile Include="guitar.fbx">
       <Name>guitar</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="SideTable.fbx">
-      <Name>SideTable</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="clock.fbx">
-      <Name>clock</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="chair.fbx">
-      <Name>chair</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>

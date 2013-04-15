@@ -24,11 +24,36 @@ namespace VirtualInvestigator
     /// </summary>
     public class VirtualInvestigatorGame : Microsoft.Xna.Framework.Game
     {
-        Vector3[] positions = new Vector3[] { new Vector3(0, 0, -30), new Vector3(-30, 0, 45) };
-        string[] models = new string[]{ "house2", "blackhat" };
+        Item house;
+        Vector3[] positions = new Vector3[] { 
+            new Vector3(12, 12, -9), 
+            new Vector3(12, 12, -5),
+            new Vector3(12, 12, -5),
+            new Vector3(-12, 12, -9),
+            new Vector3(-12, 12, -5) };
+        float[] scaleFactors = new float[] { 
+            3f, 
+            .2f,
+            .1f,
+            3f,
+            1f };
+        string[] models = new string[]{ 
+            "tableSmall", 
+            "blackhat",
+            "FreeAxe",
+            "tableSmall",
+            "FreeAXE" };
+        string[] modelNames = new string[] { 
+            "Table", 
+            "Black Hat",
+            "Book",
+            "Table",
+            "Axe" };
+        List<string> findList = new List<string> { 
+            "Table", 
+            "Black Hat" };
+
         string modelPointAt = "";
-        string[] modelNames = new string[] { "Table", "Black Hat" };
-        List<string> findList = new List<string> { "Table", "Black Hat" };
         string touched = "";
         float DisplayTime = 0f;
         
@@ -265,22 +290,28 @@ namespace VirtualInvestigator
 
         public void InitializeRocket()
         {
-            items = new Item[2];
-               
-            items[0] = new Item(this, models[0])
+            //initialize house
+            house = new Item(this, "house2")
             {
-                Position = positions[0],
-                cam = camera,
-                displayName = modelNames[0]
+                Position = new Vector3(0, 0, -30),
+                cam = camera
             };
-            items[0].Initialize();
-            items[1] = new Item(this, models[1])
+            house.Initialize();
+
+            items = new Item[models.Length];
+
+            for (int i = 0; i < items.Length; i++)
             {
-                Position = positions[1],
-                cam = camera,
-                displayName = modelNames[1]
-            };
-            items[1].Initialize();
+                items[i] = new Item(this, models[i])
+                {
+                    Position = positions[i],
+                    cam = camera,
+                    displayName = modelNames[i],
+                    scaleBy = scaleFactors[i]
+                };
+                items[i].Initialize();
+            }
+
             //
             //rockets[1] = new Rocket(this)
             //{
@@ -452,6 +483,7 @@ namespace VirtualInvestigator
             intersecting = "false";
             modelPointAt = "";
 
+            house.Update(gameTime);
 
             foreach(Item item in items) 
             {
@@ -504,7 +536,7 @@ namespace VirtualInvestigator
             {
                 foreach (BasicEffect effect in mesh.Effects) 
                 {
-                    effect.EnableDefaultLighting(); 
+                    //effect.EnableDefaultLighting(); 
                     effect.World = transforms[mesh.ParentBone.Index]; 
                     effect.View = camera.View; 
                     effect.Projection = camera.Projection; 
@@ -544,6 +576,8 @@ namespace VirtualInvestigator
             {
                 bullet.Draw(gameTime);
             }
+
+            house.Draw(gameTime);
 
             foreach (Item rocket in items)
             {
