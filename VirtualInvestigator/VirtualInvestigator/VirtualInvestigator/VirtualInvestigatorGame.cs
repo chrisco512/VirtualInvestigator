@@ -26,7 +26,7 @@ namespace VirtualInvestigator
     {
 
         Vector3[] positions = new Vector3[] { new Vector3(-30, 0, -15), new Vector3(-30, 0, 45) };
-        string[] models = new string[]{ "book", "blackhat" };
+        string[] models = new string[]{ "clock", "blackhat" };
 
         //when creating a new item:
         //
