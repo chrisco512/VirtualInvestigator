@@ -269,19 +269,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="house.fbx">
-      <Name>house</Name>
+    <Compile Include="house2.fbx">
+      <Name>house2</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_Scale>5</ProcessorParameters_Scale>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="house2.fbx">
-      <Name>house2</Name>
+    <Compile Include="tableSmall.fbx">
+      <Name>tableSmall</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_Scale>5</ProcessorParameters_Scale>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

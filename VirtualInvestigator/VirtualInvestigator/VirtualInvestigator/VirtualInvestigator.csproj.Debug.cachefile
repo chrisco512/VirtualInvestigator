@@ -35,7 +35,6 @@ Content\keyB_tx_0.xnb
 Content\Dumbell.xnb
 Content\guitar.xnb
 Content\GITARA_0.xnb
-Content\ant.xnb
 Content\clothespin.xnb
 Content\broccoli.xnb
 Content\FlowerVase.xnb
@@ -49,14 +48,11 @@ Content\jemina vase_df_0.xnb
 Content\OIL_0.xnb
 Content\minotti_1_0.xnb
 Content\Ziffernblatt_0.xnb
-<<<<<<< HEAD
-=======
-Content\chair.xnb
-Content\Theater Carpet 15 w_texture_0.xnb
-Content\house.xnb
-Content\Theater Carpet 15 w_texture_1.xnb
+Content\tableSmall.xnb
+Content\TableSmal_Texture_0.xnb
+Content\ant.xnb
 Content\house2.xnb
->>>>>>> Kevin - Simple house added
+Content\Theater Carpet 15 w_texture_0.xnb
 Objects\Camera.cs
 Objects\Bullet.cs
 Objects\DrawableComponent3D.cs

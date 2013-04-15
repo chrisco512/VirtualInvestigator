@@ -47,7 +47,7 @@ namespace VirtualInvestigator
         public const float gravity = 100 * 9.81f;
         public const float wallFriction = 100 * 0.8f;
 
-        string modelName;
+        protected string modelName;
         //protected IntersectDetails intersectDetails = new IntersectDetails();
         protected bool preferPerPixelLighting = false;
         protected float staticGroundFriction = 0.1f;

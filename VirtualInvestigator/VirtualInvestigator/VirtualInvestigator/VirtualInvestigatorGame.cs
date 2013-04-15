@@ -24,9 +24,13 @@ namespace VirtualInvestigator
     /// </summary>
     public class VirtualInvestigatorGame : Microsoft.Xna.Framework.Game
     {
-
         Vector3[] positions = new Vector3[] { new Vector3(0, 0, -30), new Vector3(-30, 0, 45) };
         string[] models = new string[]{ "house2", "blackhat" };
+        string modelPointAt = "";
+        string[] modelNames = new string[] { "Table", "Black Hat" };
+        List<string> findList = new List<string> { "Table", "Black Hat" };
+        string touched = "";
+        float DisplayTime = 0f;
 
         //when creating a new item:
         //
@@ -62,6 +66,8 @@ namespace VirtualInvestigator
         // vertex buffer to hold the vertex data
         VertexBuffer vertexBuffer;
         //Vector3 position;
+
+        GameTime displayFoundMsgTime;
 
         //Models
         Item[] items;
@@ -164,8 +170,6 @@ namespace VirtualInvestigator
 
             font = Content.Load<SpriteFont>("font");
             crossHair = Content.Load<Texture2D>("magGlass");
-            
-
 
             //accelerometer = new Accelerometer();
             //accelerometer.ReadingChanged += new EventHandler<AccelerometerReadingEventArgs>(AccelerometerReadingChanged);
@@ -235,12 +239,6 @@ namespace VirtualInvestigator
             }
             camera.Projection = Matrix.CreatePerspectiveFieldOfView( MathHelper.PiOver4, GraphicsDevice.Viewport.AspectRatio, 1, 1000.0f); 
             
-            // Define the four hit regions on touchscreen 
-            recUp = new Rectangle(GraphicsDevice.Viewport.Width / 4, 0, GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2); 
-            recDown = new Rectangle(GraphicsDevice.Viewport.Width / 4, GraphicsDevice.Viewport.Height / 2, GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2); 
-            recRight = new Rectangle( 3 * GraphicsDevice.Viewport.Width / 4, 0, GraphicsDevice.Viewport.Width / 4,GraphicsDevice.Viewport.Height); 
-            recLeft = new Rectangle(0, 0, GraphicsDevice.Viewport.Width / 4, GraphicsDevice.Viewport.Height);
-
             base.Initialize();
         }
 
@@ -256,17 +254,19 @@ namespace VirtualInvestigator
         public void InitializeRocket()
         {
             items = new Item[2];
-            
+               
             items[0] = new Item(this, models[0])
             {
                 Position = positions[0],
-                cam = camera
+                cam = camera,
+                displayName = modelNames[0]
             };
             items[0].Initialize();
             items[1] = new Item(this, models[1])
             {
                 Position = positions[1],
-                cam = camera
+                cam = camera,
+                displayName = modelNames[1]
             };
             items[1].Initialize();
             //
@@ -400,7 +400,12 @@ namespace VirtualInvestigator
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
+            if (DisplayTime > 0)
+            {
+                float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                DisplayTime -= elapsed;
+            }
+            
             camera.Update(gameTime);
 
             //cast a ray in front of the camera
@@ -433,6 +438,7 @@ namespace VirtualInvestigator
            //     this.Exit();
 
             intersecting = "false";
+            modelPointAt = "";
 
 
             foreach(Item item in items) 
@@ -442,65 +448,27 @@ namespace VirtualInvestigator
                 if (boxDistance != null)
                 {
                     intersecting = "true";
+                    modelPointAt = item.displayName;
                 }
             }
 
             strCamPos = camera.position.ToString();
-
-
-            
             
             // TODO: Add your update logic here
-           /* TouchCollection touches = TouchPanel.GetState();
+            TouchCollection touches = TouchPanel.GetState();
             if (touches.Count > 0 && touches[0].State == TouchLocationState.Pressed)
             {
-                Point point = new Point((int)touches[0].Position.X, (int)touches[0].Position.Y);
-
-                if (recUp.Contains(point))
+                if (modelPointAt != "")
                 {
-                    //camera.View *= Matrix.CreateRotationX(MathHelper.ToRadians(-5)); //camera.position += new Vector3(0, 0, 5);
-                    
+                    touched = modelPointAt;
+                    if(findList.Contains(touched))
+                    {
+                        DisplayTime = 1f;
+                        findList.Remove(touched);
+                    }
                 }
-                else if(recDown.Contains(point))
-                {
-                    //camera.View *= Matrix.CreateRotationX(MathHelper.ToRadians(5));  //camera.position += new Vector3(0, 0, -5);
-                }
-                else if (recLeft.Contains(point))
-                {
-                    //camera.View *= Matrix.CreateRotationY(MathHelper.ToRadians(-5));
-                }
-                else if (recRight.Contains(point))
-                {
-                    //camera.View *= Matrix.CreateRotationY(MathHelper.ToRadians(5));
-                }
-
             }
 
-            while (TouchPanel.IsGestureAvailable)
-            {
-                GestureSample gestures = TouchPanel.ReadGesture();
-                switch (gestures.GestureType) 
-                { 
-                    // If the GestureType is FreeDrag 
-                    case GestureType.FreeDrag: 
-                        // Read the Delta.Y to angle.X, Delta.X to angle.Y 
-                        // Because the rotation value around axis Y 
-                        // depends on the Delta changing on axis X 
-                        angle.X = gestures.Delta.Y * 0.001f; 
-                        angle.Y = gestures.Delta.X * 0.001f; 
-                        gestureDelta = gestures.Delta; 
-                        // Identify the view and rotate it 
-                        camera.View *= Matrix.Identity;
-                        camera.View *= Matrix.CreateRotationX(angle.X);
-                        camera.View *= Matrix.CreateRotationY(angle.Y); 
-                    
-                        // Reset the angle to next coming gesture. 
-                        angle.X = 0; 
-                        angle.Y = 0; 
-                    break; 
-                }
-
-            }*/
 
             base.Update(gameTime);
         }
@@ -570,6 +538,8 @@ namespace VirtualInvestigator
             
             }
 
+
+
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             spriteBatch.Draw(crossHair, new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), null, Color.White, 0, new Vector2(crossHair.Width / 2, crossHair.Height / 2), 0.125f, SpriteEffects.None, 0);
             spriteBatch.End();
@@ -577,8 +547,22 @@ namespace VirtualInvestigator
             //string message = string.Format("Current Data \n Yaw: {0} \n Pitch: {1} \n Roll: {2} \n CamPos: {3}", yaw, pitch, roll, strCamPos);
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, intersecting, new Vector2(50, 50), Color.White);
+            spriteBatch.DrawString(font, modelPointAt, new Vector2(50, 50), Color.White);
             spriteBatch.End();
+
+            for (int i = 0; i < findList.Count; i++)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(font, findList[i], new Vector2( 20 + i * 80, GraphicsDevice.Viewport.Height - 50), Color.White);
+                spriteBatch.End();
+            }
+
+            if (DisplayTime > 0)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(font, "You found " + touched, new Vector2(250, 250), Color.White);
+                spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }
