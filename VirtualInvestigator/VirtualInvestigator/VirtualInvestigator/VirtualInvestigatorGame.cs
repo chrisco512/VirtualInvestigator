@@ -31,7 +31,12 @@ namespace VirtualInvestigator
         List<string> findList = new List<string> { "Table", "Black Hat" };
         string touched = "";
         float DisplayTime = 0f;
-
+        
+        //sound stuff -Kevin
+        SoundEffect hitSound;
+        SoundEffect missSound;
+        SoundEffect music;
+        SoundEffectInstance instance;
         //when creating a new item:
         //
         #region 2D
@@ -93,7 +98,6 @@ namespace VirtualInvestigator
             graphics = new GraphicsDeviceManager(this);
 
             graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-       
 
             Content.RootDirectory = "Content";
 
@@ -170,6 +174,14 @@ namespace VirtualInvestigator
 
             font = Content.Load<SpriteFont>("font");
             crossHair = Content.Load<Texture2D>("magGlass");
+
+            //sound load stuff
+            hitSound = Content.Load<SoundEffect>("shimmer_1");
+            missSound = Content.Load<SoundEffect>("click");
+            music = Content.Load<SoundEffect>("Bushwick");
+            instance = music.CreateInstance();
+            instance.IsLooped = true;
+            music.Play();
 
             //accelerometer = new Accelerometer();
             //accelerometer.ReadingChanged += new EventHandler<AccelerometerReadingEventArgs>(AccelerometerReadingChanged);
@@ -461,11 +473,20 @@ namespace VirtualInvestigator
                 if (modelPointAt != "")
                 {
                     touched = modelPointAt;
-                    if(findList.Contains(touched))
+                    if (findList.Contains(touched))
                     {
                         DisplayTime = 1f;
                         findList.Remove(touched);
+                        hitSound.Play();
                     }
+                    else
+                    {
+                        missSound.Play();
+                    }
+                }
+                else
+                {
+                    missSound.Play();
                 }
             }
 
