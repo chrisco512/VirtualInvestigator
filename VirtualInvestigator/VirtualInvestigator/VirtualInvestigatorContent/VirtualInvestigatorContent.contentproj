@@ -56,6 +56,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="lowpolybullet.fbx">
+      <Name>lowpolybullet</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bullet_UV2.tga">
+      <Name>Bullet_UV2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="sand.jpg">
       <Name>sand</Name>
       <Importer>TextureImporter</Importer>
@@ -177,8 +191,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="lightBulb.fbx">
+      <Name>lightBulb</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="broccoli.fbx">
       <Name>broccoli</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="oldKey.fbx">
+      <Name>oldKey</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
@@ -191,8 +219,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dumbell.fbx">
+      <Name>Dumbell</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="lavaLamp.fbx">
       <Name>lavaLamp</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="guitar.fbx">
+      <Name>guitar</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
@@ -219,8 +261,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="branch.fbx">
-      <Name>branch</Name>
+    <Compile Include="ant.fbx">
+      <Name>ant</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
