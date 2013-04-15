@@ -49,6 +49,14 @@ Content\jemina vase_df_0.xnb
 Content\OIL_0.xnb
 Content\minotti_1_0.xnb
 Content\Ziffernblatt_0.xnb
+<<<<<<< HEAD
+=======
+Content\chair.xnb
+Content\Theater Carpet 15 w_texture_0.xnb
+Content\house.xnb
+Content\Theater Carpet 15 w_texture_1.xnb
+Content\house2.xnb
+>>>>>>> Kevin - Simple house added
 Objects\Camera.cs
 Objects\Bullet.cs
 Objects\DrawableComponent3D.cs
