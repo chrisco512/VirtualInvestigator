@@ -24,38 +24,107 @@ namespace VirtualInvestigator
     /// </summary>
     public class VirtualInvestigatorGame : Microsoft.Xna.Framework.Game
     {
+        int score = 0;
+        float bonus = 30f;
         Item house;
         Vector3[] positions = new Vector3[] { 
-            new Vector3(12, 12, -9), 
-            new Vector3(12, 12, -5),
-            new Vector3(12, 12, -5),
-            new Vector3(-12, 12, -9),
-            new Vector3(-12, 12, -5) };
-        float[] scaleFactors = new float[] { 
-            3f, 
-            .2f,
-            .1f,
-            3f,
-            1f };
+            new Vector3(18, 15, -11),               //1
+            new Vector3(-14, 15, -10),              //2
+            new Vector3(20, 7, -10),                //3 bookshelfL
+            new Vector3(-18, 9, -10),               //4
+            new Vector3(-8, -18, -12),              //5
+            new Vector3(14, 15, -10),               //6 chr2
+            new Vector3(16, -16, -10),              //7
+            new Vector3(8, -18, -12),               //8
+            new Vector3(-13, 14, -10),              //9
+            new Vector3(-20, -20, -12),             //10
+            new Vector3(-18, -6, -10),              //11
+            new Vector3(-18, 0, -10),               //12
+            new Vector3(-12, 0, -10),               //13 sofatable
+            new Vector3(0, -18, -12),               //14 longtable
+            new Vector3(0, 18, -10),                //23 commode
+            new Vector3(20, 0, -10),                //15 red vase
+            new Vector3(0, -18, -8),                //16 Turkey
+            new Vector3(0, -18, -8),                //17 Serving Dish
+            new Vector3(-20, -20, 3),               //18 blackhat
+            new Vector3(-5, -8, -10),               //19 book
+            new Vector3(18, 7, 1),                  //21 candilabre
+            new Vector3(14, 15, -10),               //22 clothespin
+            new Vector3(18, -6, -10),               //25 ant
+            new Vector3(0, 18, -7),                 //26 old key
+            new Vector3(-18, 9, -7),                //27 grain bowl
+            new Vector3(-21, -15, -11),             //28 guitar
+            new Vector3(18, -18, -7)                //29 bulb
+            };
         string[] models = new string[]{ 
-            "tableSmall", 
-            "blackhat",
-            "FreeAxe",
-            "tableSmall",
-            "FreeAXE" };
+            "tableSmall",                           // 1
+            "armchair_vi",                          // 2
+            "bookcaseL_vi",                         // 3
+            "bookcaseM_vi",                         // 4
+            "ChairI_vi",                            // 5
+            "ChairII_vi",                           // 6
+            "ChestWood_vi",                         // 7
+            "ChairI_vi2",                           // 8
+            "Footrest_vi",                          // 9
+            "HighShelf_vi",                         // 10
+            "SmokingTable_vi",                      // 11
+            "sofa_vi",                              // 12
+            "sofatable_vi",                         // 13
+            "TableLong_vi",                         // 14
+            "Commode_vi",                           // 23
+            "Vase01",                               // 15
+            "Serving_vi",                           // 16
+            "Turkey_vi",                            // 17
+            "blackhat",                             // 18
+            "Book1_vi",                             // 19
+            "Candilabre_vi",                        // 21
+            "clothespin",                           // 22
+            "ant",                                  // 25
+            "oldKey",                               // 26
+            "Grain_vi",                             // 27
+            "guitar",                               // 28
+            "lightBulb"                             // 29
+                
+        };
         string[] modelNames = new string[] { 
-            "Table", 
-            "Black Hat",
-            "Book",
-            "Table",
-            "Axe" };
+            "Small Table",                          // 1
+            "Arm Chair",                            // 2
+            "Bookcase Large",                       // 3
+            "Bookcase Med",                         // 4
+            "Chair I",                              // 5
+            "Chair II",                             // 6
+            "Chest Wood",                           // 7
+            "Chair I",                              // 8
+            "Foot Rest",                            // 9
+            "High Shelf",                           // 10
+            "Smoking Table",                        // 11
+            "Sofa",                                 // 12
+            "Sofa Table",                           // 13
+            "Long Table",                           // 14
+            "Commode",                              // 23
+            "Red Vase",                             // 15
+            "Serving Plate",                        // 16
+            "Turkey",                               // 17
+            "Black Hat",                            // 18
+            "Book",                                 // 19
+            "Candilabre",                           // 21
+            "Clothespin",                           // 22
+            "Ant",                                  // 24
+            "Old Key",                              // 26
+            "Bowl",                                 // 27
+            "Guitar",                               // 28
+            "Light Bulb"                            // 29
+        };
         List<string> findList = new List<string> { 
-            "Table", 
-            "Black Hat" };
+        };
 
         string modelPointAt = "";
         string touched = "";
         float DisplayTime = 0f;
+
+        int frameRate = 0;
+        int frameCounter = 0;
+        TimeSpan elapsedTime = TimeSpan.Zero;
         
         //sound stuff -Kevin
         SoundEffect hitSound;
@@ -184,16 +253,16 @@ namespace VirtualInvestigator
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.World = Matrix.Identity;
 
-            pointList = new VertexPositionColor[6];
-            pointList[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Red);
-            pointList[1] = new VertexPositionColor(new Vector3(50, 0, 0), Color.Red);
-            pointList[2] = new VertexPositionColor(new Vector3(0, 0, 0), Color.White);
-            pointList[3] = new VertexPositionColor(new Vector3(0, 50, 0), Color.White);
-            pointList[4] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Blue);
-            pointList[5] = new VertexPositionColor(new Vector3(0, 0, 50), Color.Blue);
-
-            vertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, 6, BufferUsage.None);
-            vertexBuffer.SetData<VertexPositionColor>(pointList);
+            //pointList = new VertexPositionColor[6];
+            //pointList[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Red);
+            //pointList[1] = new VertexPositionColor(new Vector3(50, 0, 0), Color.Red);
+            //pointList[2] = new VertexPositionColor(new Vector3(0, 0, 0), Color.White);
+            //pointList[3] = new VertexPositionColor(new Vector3(0, 50, 0), Color.White);
+            //pointList[4] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Blue);
+            //pointList[5] = new VertexPositionColor(new Vector3(0, 0, 50), Color.Blue);
+            //
+            //vertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, 6, BufferUsage.None);
+            //vertexBuffer.SetData<VertexPositionColor>(pointList);
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
@@ -208,6 +277,19 @@ namespace VirtualInvestigator
             instance.IsLooped = true;
             music.Play();
 
+
+            //randomize find list
+            Random rand = new Random();
+            int index;
+
+            while (findList.Count < 3)
+            {
+                index = rand.Next(0, 11);
+                if(!findList.Contains(modelNames[modelNames.Length - index]))
+                {
+                    findList.Add(modelNames[modelNames.Length - index]);
+                }
+            }
             //accelerometer = new Accelerometer();
             //accelerometer.ReadingChanged += new EventHandler<AccelerometerReadingEventArgs>(AccelerometerReadingChanged);
             //
@@ -306,8 +388,7 @@ namespace VirtualInvestigator
                 {
                     Position = positions[i],
                     cam = camera,
-                    displayName = modelNames[i],
-                    scaleBy = scaleFactors[i]
+                    displayName = modelNames[i]
                 };
                 items[i].Initialize();
             }
@@ -448,6 +529,21 @@ namespace VirtualInvestigator
                 float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 DisplayTime -= elapsed;
             }
+
+            if (bonus > 0)
+            {
+                float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                bonus -= elapsed;
+            }
+
+            //elapsedTime += gameTime.ElapsedGameTime;
+            //
+            //if (elapsedTime > TimeSpan.FromSeconds(1))
+            //{
+            //    elapsedTime -= TimeSpan.FromSeconds(1);
+            //    frameRate = frameCounter;
+            //    frameCounter = 0;
+            //}
             
             camera.Update(gameTime);
 
@@ -507,6 +603,9 @@ namespace VirtualInvestigator
                     touched = modelPointAt;
                     if (findList.Contains(touched))
                     {
+                        score += 25000;
+                        if (bonus > 0)
+                            score += (int)(bonus * 75000);
                         DisplayTime = 1f;
                         findList.Remove(touched);
                         hitSound.Play();
@@ -553,7 +652,9 @@ namespace VirtualInvestigator
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //frameCounter++;
+
+            string scoreTxt = string.Format("SCORE: {0}", score);
 
             GraphicsDevice.DepthStencilState = DepthStencilState.Default; 
             GraphicsDevice.BlendState = BlendState.Opaque;
@@ -565,12 +666,12 @@ namespace VirtualInvestigator
 
             basicEffect.VertexColorEnabled = true;
 
-            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                GraphicsDevice.SetVertexBuffer(vertexBuffer, 0);
-                GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, pointList, 0, 3);
-            }
+            //foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+            //{
+            //    pass.Apply();
+            //    GraphicsDevice.SetVertexBuffer(vertexBuffer, 0);
+            //    GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, pointList, 0, 3);
+            //}
 
             foreach (Bullet bullet in bullets)
             {
@@ -582,8 +683,8 @@ namespace VirtualInvestigator
             foreach (Item rocket in items)
             {
                 rocket.Draw(gameTime);
-                BoundingBoxBuffers buffers = CreateBoundingBoxBuffers(rocket.box, GraphicsDevice);
-                DrawBoundingBox(buffers, basicEffect, GraphicsDevice, camera.View, camera.Projection);
+                //BoundingBoxBuffers buffers = CreateBoundingBoxBuffers(rocket.box, GraphicsDevice);
+                //DrawBoundingBox(buffers, basicEffect, GraphicsDevice, camera.View, camera.Projection);
 
 
                 //BoundingBox b = new BoundingBox(new Vector3(drone.Position.X - drone.limit, drone.Position.Y - drone.limit, drone.Position.Z - drone.limit),
@@ -593,29 +694,35 @@ namespace VirtualInvestigator
             
             }
 
-
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, scoreTxt, new Vector2(50, 25), Color.Black);
+            spriteBatch.DrawString(font, scoreTxt, new Vector2(49, 24), Color.White);
+            spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw(crossHair, new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), null, Color.White, 0, new Vector2(crossHair.Width / 2, crossHair.Height / 2), 0.125f, SpriteEffects.None, 0);
+            spriteBatch.Draw(crossHair, new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), null, Color.White, 0, new Vector2(crossHair.Width / 2, crossHair.Height / 2), 1f, SpriteEffects.None, 0);
             spriteBatch.End();
 
             //string message = string.Format("Current Data \n Yaw: {0} \n Pitch: {1} \n Roll: {2} \n CamPos: {3}", yaw, pitch, roll, strCamPos);
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, modelPointAt, new Vector2(50, 50), Color.White);
+            spriteBatch.DrawString(font, modelPointAt, new Vector2(50, 50), Color.Black);
+            spriteBatch.DrawString(font, modelPointAt, new Vector2(49, 49), Color.White);
             spriteBatch.End();
 
             for (int i = 0; i < findList.Count; i++)
             {
                 spriteBatch.Begin();
-                spriteBatch.DrawString(font, findList[i], new Vector2( 20 + i * 80, GraphicsDevice.Viewport.Height - 50), Color.White);
+                spriteBatch.DrawString(font, findList[i], new Vector2(20 + i * 125, GraphicsDevice.Viewport.Height - 50), Color.Black, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(font, findList[i], new Vector2( 20 + i * 125, GraphicsDevice.Viewport.Height - 50), Color.White, 0f, new Vector2(1,1), 1f, SpriteEffects.None, 0);
                 spriteBatch.End();
             }
 
             if (DisplayTime > 0)
             {
                 spriteBatch.Begin();
-                spriteBatch.DrawString(font, "You found " + touched, new Vector2(250, 250), Color.White);
+                spriteBatch.DrawString(font, "You found " + touched, new Vector2(250, 175), Color.Black);
+                spriteBatch.DrawString(font, "You found " + touched, new Vector2(249, 174), Color.White);
                 spriteBatch.End();
             }
 

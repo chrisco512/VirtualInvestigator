@@ -161,7 +161,6 @@ namespace VirtualInvestigator
                 FinalWorldTransforms = //Matrix.CreateRotationY(scalar * -MathHelper.PiOver2) * 
                                         Matrix.CreateRotationX(MathHelper.PiOver2) *
                                         Matrix.CreateRotationZ(MathHelper.PiOver2) *
-                                        Matrix.CreateScale(scaleBy) * 
                                         Matrix.CreateTranslation(Position);
             }
             else
@@ -170,7 +169,6 @@ namespace VirtualInvestigator
 
                 // Multiply by two matrices which will place the item in its proper position
                 FinalWorldTransforms = Matrix.CreateRotationX(MathHelper.PiOver2) * //Matrix.CreateTranslation(new Vector3(-20,0,0)) *
-                            Matrix.CreateScale(scaleBy) * 
                             Matrix.CreateRotationZ(MathHelper.PiOver2) *
                             Matrix.CreateTranslation(Position);
             }
